@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-[#0b141a] text-gray-100 antialiased selection:bg-[#00a884] selection:text-white min-h-screen overflow-x-hidden;
+    @apply bg-wa-dark text-gray-100 antialiased selection:bg-wa-green selection:text-white min-h-screen overflow-x-hidden;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-image: 
       radial-gradient(circle at 10% 20%, rgba(0, 168, 132, 0.08) 0%, transparent 40%),
@@ -15,19 +15,19 @@
 
 @layer utilities {
   .glass-panel {
-    @apply bg-[#111b21]/70 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40;
+    @apply bg-wa-panel/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50;
   }
   
   .glass-card {
-    @apply bg-[#1f2c34]/60 backdrop-blur-md border border-white/10 hover:border-[#00a884]/40 transition-all duration-300 shadow-lg;
+    @apply bg-wa-card/70 backdrop-blur-md border border-white/10 hover:border-wa-green/40 transition-all duration-300 shadow-lg;
   }
 
   .glass-button {
-    @apply bg-[#2a3942]/80 hover:bg-[#374248] backdrop-blur-sm border border-white/10 transition-all duration-200 active:scale-95;
+    @apply bg-wa-hover/80 hover:bg-wa-border backdrop-blur-sm border border-white/10 transition-all duration-200 active:scale-95;
   }
 
   .glass-button-primary {
-    @apply bg-gradient-to-r from-[#00a884] to-[#25d366] text-[#0b141a] font-semibold shadow-lg shadow-[#00a884]/25 hover:shadow-[#00a884]/40 hover:brightness-110 transition-all duration-200 active:scale-95;
+    @apply bg-gradient-to-r from-wa-green to-wa-lightGreen text-wa-dark font-semibold shadow-lg shadow-wa-green/25 hover:shadow-wa-green/40 hover:brightness-110 transition-all duration-200 active:scale-95;
   }
 }
 
@@ -46,7 +46,7 @@
   animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Custom Scrollbar */
+/* Custom Smooth Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

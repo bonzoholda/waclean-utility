@@ -8,13 +8,17 @@ export default {
     extend: {
       colors: {
         wa: {
-          dark: '#111b21',
-          panel: '#202c33',
+          dark: '#0b141a',
+          panel: '#111b21',
+          card: '#1f2c34',
+          hover: '#2a3942',
           border: '#222d34',
           green: '#00a884',
-          light: '#005c4b',
-          hover: '#2a3942',
+          lightGreen: '#25d366',
         }
+      },
+      boxShadow: {
+        glass: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
       }
     },
   },
