@@ -7,7 +7,7 @@ import { ActionToolbar } from './components/explorer/ActionToolbar';
 import { TriageTable } from './components/explorer/TriageTable';
 import { exportScanReportToJSON } from './utils/backupExporter';
 import { WhatsAppCategory } from './@types/fs';
-import { FolderOpen, ArrowLeft, Trash2 } from 'lucide-react';
+import { FolderOpen, ArrowLeft, ShieldCheck, Sparkles } from 'lucide-react';
 
 export function App() {
   const {
@@ -64,29 +64,40 @@ export function App() {
   const isAllSelected = filteredFiles.length > 0 && selectedIds.length === filteredFiles.length;
 
   return (
-    <div className="min-h-screen bg-wa-dark text-gray-100 flex flex-col">
+    <div className="min-h-screen flex flex-col text-gray-100 relative">
+      {/* Background ambient glowing orbs */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#00a884]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-[#25d366]/10 rounded-full blur-3xl pointer-events-none" />
+
       <Header />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 relative z-10">
         {files.length === 0 ? (
-          <FolderPickerHero onSelectFolder={scanDirectory} isLoading={isLoading} />
+          <div className="animate-fadeIn py-12">
+            <FolderPickerHero onSelectFolder={scanDirectory} isLoading={isLoading} />
+          </div>
         ) : (
           <div className="space-y-8 animate-fadeIn">
             {/* Top Navigation / Rescan Control */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="glass-panel p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <button
                 onClick={scanDirectory}
                 disabled={isLoading}
-                className="flex items-center gap-2 text-xs text-gray-400 hover:text-white bg-wa-panel border border-wa-border px-4 py-2 rounded-xl transition"
+                className="glass-button px-4 py-2.5 rounded-xl text-xs font-medium text-gray-300 hover:text-white flex items-center gap-2 group"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="w-4 h-4 text-[#00a884] group-hover:-translate-x-0.5 transition-transform" />
                 <span>Pilih Folder Lain / Pindai Ulang</span>
               </button>
 
-              <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs bg-wa-green/10 text-wa-green border border-wa-green/20">
-                  <FolderOpen className="w-3.5 h-3.5" /> Direktori Aktif: {currentDirName}
-                </span>
+              <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs bg-[#00a884]/10 text-[#25d366] border border-[#00a884]/25 shadow-inner">
+                  <FolderOpen className="w-4 h-4 text-[#00a884]" /> 
+                  <span className="font-mono font-medium truncate max-w-[220px] sm:max-w-xs">{currentDirName}</span>
+                </div>
+                <div className="hidden md:flex items-center gap-1.5 text-xs text-gray-400 bg-black/20 px-3 py-1.5 rounded-xl border border-white/5">
+                  <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
+                  <span>Ready to Clean</span>
+                </div>
               </div>
             </div>
 
@@ -102,16 +113,24 @@ export function App() {
             />
 
             {/* File Explorer & Triage Section */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  <span>Daftar File ({filteredFiles.length})</span>
-                  {selectedCategory !== 'All' && (
-                    <span className="text-xs font-normal text-wa-green bg-wa-green/10 px-2 py-0.5 rounded border border-wa-green/20">
-                      Filter: {selectedCategory}
+            <div className="glass-panel p-6 rounded-2xl space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
+                <div>
+                  <h3 className="text-xl font-bold text-white flex items-center gap-3">
+                    <span>Daftar File</span>
+                    <span className="text-sm font-semibold bg-white/10 text-gray-200 px-2.5 py-0.5 rounded-full border border-white/10">
+                      {filteredFiles.length} item
                     </span>
-                  )}
-                </h3>
+                  </h3>
+                  <p className="text-xs text-gray-400 mt-0.5">Tinjau, pilih, dan bersihkan file sampah WhatsApp dengan aman.</p>
+                </div>
+
+                {selectedCategory !== 'All' && (
+                  <div className="self-start sm:self-center flex items-center gap-2 text-xs font-medium text-[#25d366] bg-[#00a884]/15 px-3 py-1.5 rounded-xl border border-[#00a884]/30 shadow-sm">
+                    <span>Filter Aktif:</span>
+                    <span className="font-bold underline uppercase tracking-wider">{selectedCategory}</span>
+                  </div>
+                )}
               </div>
 
               {/* Action Toolbar */}
@@ -125,18 +144,30 @@ export function App() {
               />
 
               {/* Data Table */}
-              <TriageTable
-                files={filteredFiles}
-                selectedIds={selectedIds}
-                onToggleSelect={handleToggleSelect}
-              />
+              <div className="rounded-xl overflow-hidden border border-white/10 shadow-inner bg-black/20">
+                <TriageTable
+                  files={filteredFiles}
+                  selectedIds={selectedIds}
+                  onToggleSelect={handleToggleSelect}
+                />
+              </div>
             </div>
           </div>
         )}
       </main>
 
-      <footer className="border-t border-wa-border py-6 text-center text-xs text-gray-500">
-        <p>WaClean Utility &bull; Secure Local WhatsApp Storage Cleaner. Zero Server Uploads.</p>
+      <footer className="mt-auto border-t border-white/10 bg-[#0b141a]/90 backdrop-blur-md py-6 text-center text-xs text-gray-400 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="font-bold tracking-wider text-white">WaClean</span>
+            <span className="text-gray-500">&bull;</span>
+            <span>Secure Local WhatsApp Storage Cleaner</span>
+          </div>
+          <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+            <ShieldCheck className="w-4 h-4" />
+            <span>100% Client-Side Private &bull; Zero Server Uploads</span>
+          </div>
+        </div>
       </footer>
     </div>
   );
